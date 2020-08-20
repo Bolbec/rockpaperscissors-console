@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <script>
+        let userGlobalScore = 0;
+        let compGlobalScore = 0;
+        const seleccion = ["piedra", "papel", "tijera"];
+        let seleccionComputadora = computerPlay();
+        game();
+        function computerPlay() {
+            let computadoraEleccion = seleccion[Math.floor(Math.random() * seleccion.length)];
+            return computadoraEleccion;
+        }
+        function playRound(playerSelection, computerSelection) {
+            let formatUser = playerSelection.toLowerCase();
+            let formatComputer = computerSelection;
+            if (formatUser == 'piedra' || formatUser == 'papel' || formatUser == 'tijera') {
+                if (formatUser === formatComputer) {
+                    return 'tie'
+                }
+                else if (formatUser === 'piedra' && formatComputer === 'papel' || 
+                formatUser === 'tijera' && formatComputer === 'piedra' || 
+                formatUser === 'papel' && formatComputer === 'tijera') {
+                    return 'cwin'
+                }
+                else {
+                    return 'pwin'
+                }
+            }
+            else if (formatComputer.length === 0 || !formatUser.trim()) {
+                return 'vacio'
+            }
+            else {
+                return 'invalid'
+            }
+        }
+        function game() {
+
+            for (let i = 0; i < 100; i++) {
+                if (userGlobalScore === 3 ) {
+                    alert(`Ganaste bo5. Vos: ${userGlobalScore} IA: ${compGlobalScore}`)
+                    board('finalwin');
+                    break;
+                }
+                else if (compGlobalScore === 3) {
+                    alert(`Perdiste el bo5 Vos: ${userGlobalScore} IA: ${compGlobalScore}`)
+                    board('finalloose');
+                    break;
+                }
+                let resultado = playRound(prompt("Piedra/papel/tijera"), seleccionComputadora);
+                if (resultado === 'tie') {
+                i--;
+                board('tie');
+                }
+                else if (resultado === 'cwin') {
+                compGlobalScore++;
+                board('cwin');
+                }
+                else if (resultado === 'pwin') {
+                userGlobalScore++;
+                board('pwin');
+                }
+                else if (resultado === 'invalid') {
+                console.log("Tenés que elegir entre piedra papel o tijera.")
+                break;
+                }
+                else if (resultado === 'vacio') {
+                console.log("No podés dejar esto en blanco.")
+                break;
+                }
+                
+        }
+    }
+
+    function board(string) {
+        if (string === 'tie') {
+            console.log(`Empate. \nResultado parcial - Vos: ${userGlobalScore} - ${compGlobalScore} :IA`)
+        }
+
+        else if (string === 'cwin') {
+            console.log(`Perdiste. \nResultado parcial - Vos: ${userGlobalScore} - ${compGlobalScore} :IA`)  
+        }
+
+        else if (string === 'pwin') {
+            console.log(`Ganaste. \nResultado parcial - Vos: ${userGlobalScore} - ${compGlobalScore} :IA`)
+        }
+        else if (string === 'finalwin') {
+            console.log(`Ganaste el BO5. \nResultado final - Vos: ${userGlobalScore} - ${compGlobalScore} :IA`)
+        }
+        else if (string === 'finalloose') {
+            console.log(`Perdiste el BO5. \nResultado final - Vos: ${userGlobalScore} - ${compGlobalScore} :IA`)
+        }
+    }
+    </script>
+</body>
+</html>
